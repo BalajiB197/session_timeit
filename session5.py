@@ -3,6 +3,13 @@ import time
 
 
 def time_it(fn, *args, repetitons= 1, **kwargs):
+    '''
+    *args - accept all the positional value
+    **kwargs - accept all named arguments
+    repetitons - run the method to execute for the specified number
+    of times.
+    fn - function name
+    '''
     start_time = time.time()
     for _ in range(repetitons):
         if fn.__name__ == 'print':
@@ -16,19 +23,19 @@ def time_it(fn, *args, repetitons= 1, **kwargs):
         elif fn.__name__ == 'speed_converter':
             speed_converter(*args, **kwargs)
         else:
-            print("Not defined")
+            print("Error!! Module not defined")
     end_time = time.time()
     seconds = end_time - start_time
-    print('Time Taken:', seconds/repetitons)
-
+    return seconds/repetitons
 
 def squared_power_list(*args, **kwargs):
     value = args[0]
     start = kwargs['start']
     end = kwargs['end']
     a = []
-    for j in range(start, end+1):
-        a.append(pow(value,j)) 
+    if start >= 0:
+        for j in range(start, end+1):
+            a.append(pow(value,j)) 
 
 def polygon_area(*args, **kwargs):
     value = args[0]
@@ -57,13 +64,26 @@ def temp_converter(*args, **kwargs):
 
 def speed_converter(*args, **kwargs):
     value = args[0]
-    _ = kwargs['dist']
+    dist = kwargs['dist']
     time = kwargs['time']
-    if time == 'm': # ms/s/m/hr/day,
-        conv = value / 60  
-    elif time == 's':
-        conv = value / 3600
-    elif time == 'ms':
-        conv = value / 3600000
-    elif time == 'day':
-        conv = value * 24
+    if value >= 0:
+        if dist == 'km':
+            if time == 'm': # ms/s/m/hr/day,
+                conv = value / 60  
+            elif time == 's':
+                conv = value / 3600
+            elif time == 'ms':
+                conv = value * 0.0417
+            elif time == 'day':
+                conv = value * 24
+        elif dist == 'm':
+            if time == 'm': # ms/s/m/hr/day,
+                conv = value * 0.277778 
+            elif time == 's':
+                conv = value * 0.277778
+            elif time == 'ms':
+                conv = value / 3600000
+            elif time == 'day':
+                conv = value * 24
+    else:
+        print("Error!!! Value cannot be Negative")
