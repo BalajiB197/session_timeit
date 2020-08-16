@@ -67,11 +67,3 @@ def speed_converter(*args, **kwargs):
         conv = value / 3600000
     elif time == 'day':
         conv = value * 24
-            
-
-time_it(print, 1, 2, 3, sep='-', end= ' ***\n', repetitons= 5)
-time_it(squared_power_list, 2, start=0, end=5, repetitons=1000)
-time_it(polygon_area, 15, sides = 5, repetitons=10)
-time_it(temp_converter, 100, temp_given_in = 'f', repetitons=100) 
-time_it(speed_converter,100, dist='m', time='s', repetitons=20) 
-time_it(speed_converter, 100, dist='km', time='m', repetitons=200) 
