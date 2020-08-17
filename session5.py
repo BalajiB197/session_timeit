@@ -11,19 +11,20 @@ def time_it(fn, *args, repetitons= 1, **kwargs):
     fn - function name
     '''
     start_time = time.time()
-    for _ in range(repetitons):
-        if fn.__name__ == 'print':
-            print(*args, **kwargs)
-        elif fn.__name__ == 'squared_power_list':
-            squared_power_list(*args, **kwargs)
-        elif fn.__name__ == 'polygon_area':
-            polygon_area(*args, **kwargs)
-        elif fn.__name__ == 'temp_converter':
-            temp_converter(*args, **kwargs)
-        elif fn.__name__ == 'speed_converter':
-            speed_converter(*args, **kwargs)
-        else:
-            print("Error!! Module not defined")
+    if fn:
+        for _ in range(repetitons):
+            if fn.__name__ == 'print':
+                print(*args, **kwargs)
+            elif fn.__name__ == 'squared_power_list':
+                squared_power_list(*args, **kwargs)
+            elif fn.__name__ == 'polygon_area':
+                polygon_area(*args, **kwargs)
+            elif fn.__name__ == 'temp_converter':
+                temp_converter(*args, **kwargs)
+            elif fn.__name__ == 'speed_converter':
+                speed_converter(*args, **kwargs)
+    else:
+        raise ValueError("No function call")
     end_time = time.time()
     seconds = end_time - start_time
     return seconds/repetitons
@@ -33,9 +34,12 @@ def squared_power_list(*args, **kwargs):
     start = kwargs['start']
     end = kwargs['end']
     a = []
-    if start >= 0:
-        for j in range(start, end+1):
-            a.append(pow(value,j)) 
+    if value > 0:
+        if start >= 0:
+            for j in range(start, end+1):
+                a.append(pow(value,j)) 
+    else:
+        raise ValueError("No negative")
 
 def polygon_area(*args, **kwargs):
     value = args[0]
@@ -53,6 +57,8 @@ def polygon_area(*args, **kwargs):
             P = 6 * value
             a = value / -12.81
             A = P*a/ 2
+    else:
+        raise ValueError("Sides should be between 3 to 6")
 
 def temp_converter(*args, **kwargs):
     value = args[0]
@@ -68,7 +74,7 @@ def speed_converter(*args, **kwargs):
     time = kwargs['time']
     if value >= 0:
         if dist == 'km':
-            if time == 'm': # ms/s/m/hr/day,
+            if time == 'm': 
                 conv = value / 60  
             elif time == 's':
                 conv = value / 3600
@@ -77,7 +83,7 @@ def speed_converter(*args, **kwargs):
             elif time == 'day':
                 conv = value * 24
         elif dist == 'm':
-            if time == 'm': # ms/s/m/hr/day,
+            if time == 'm': 
                 conv = value * 0.277778 
             elif time == 's':
                 conv = value * 0.277778
@@ -85,5 +91,15 @@ def speed_converter(*args, **kwargs):
                 conv = value / 3600000
             elif time == 'day':
                 conv = value * 24
+        elif dist == 'ft':
+            if time == 'hr':
+                conv = value * 3280.83
+            elif time == 's':
+                conv = value * 0.91134442
+        elif dist == 'yrd':
+            if time == 'hr':
+                conv = value * 1093.61
+            elif time == 's':
+                conv = value *  0.30378 
     else:
-        print("Error!!! Value cannot be Negative")
+        raise ValueError("Error!!! Value cannot be Negative")
